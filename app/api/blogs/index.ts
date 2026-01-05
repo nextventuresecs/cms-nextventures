@@ -1,4 +1,4 @@
-import { supabase } from '@/app/cms-api/lib/supabase';
+import { supabase } from '@/app/lib/supabase';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { z } from 'zod';
 
