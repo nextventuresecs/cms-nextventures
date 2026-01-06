@@ -1,5 +1,7 @@
 /* filepath: d:\Trun Dada\NextVentures\Website\cms-nextventures\app\globals.css */
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @layer base {
   :root {
