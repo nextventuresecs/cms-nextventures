@@ -19,7 +19,7 @@ import {
   Menu,
   X,
 } from 'lucide-react';
-import { supabase } from '../lib/supabase';
+import { createClient } from '@/lib/supabase-client';
 
 interface AdminLayoutProps {
   children: ReactNode;
@@ -39,6 +39,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   const [user, setUser] = useState<User | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const router = useRouter();
+  const supabase = createClient();
 
   useEffect(() => {
     const getUser = async () => {
@@ -46,7 +47,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
       setUser(user);
     };
     getUser();
-  }, []);
+  }, [supabase]);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
