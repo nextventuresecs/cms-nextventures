@@ -10,38 +10,45 @@ const querySchema = z.object({
 
 export async function GET(request: NextRequest) {
   try {
+
     const { searchParams } = new URL(request.url);
     const { limit, page, tag } = querySchema.parse({
       limit: searchParams.get('limit'),
-      page: searchParams.get('page'),
-      tag: searchParams.get('tag'),
+      page: searchParams.get('page') ?? undefined,
+      tag: searchParams.get('tag') ?? undefined,
     });
 
+
     const offset = (page - 1) * limit;
+
     let query = supabase
       .from('blog_posts')
-      .select('id, title, slug, excerpt, cover_image, published_at, reading_time, seo_meta, count')
+      .select('id, title, slug, excerpt, cover_image, published_at, reading_time, seo_meta')
       .eq('status', 'published')
       .eq('type', 'blog')
       .order('published_at', { ascending: false })
       .range(offset, offset + limit - 1);
 
     if (tag) {
-      query = query.eq('blog_tags.name', tag); 
+      query = query.eq('blog_tags.name', tag);  // Potential issue: tag join
     }
 
     const { data: blogs, error, count } = await query;
-    if (error) throw error;
+
+    if (error) {
+      throw error;
+    }
 
     return NextResponse.json({
       success: true,
-      data: { blogs, total: count ?? 0, page, hasMore: offset + limit < (count ?? 0) },
+      data: { blogs, total: count, page, hasMore: offset + limit < (count ?? 0) },
       meta: { timestamp: new Date().toISOString() },
     });
-  } catch (error: any) {
-    console.error('Blog API Error:', error);
+  } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Unknown error occurred';
+      console.error('Caught error in /api/blogs:', message);
     return NextResponse.json(
-      { success: false, error: { code: 'INTERNAL_ERROR', message: error?.message || 'Failed to fetch blogs' } },
+      { success: false, error: { code: 'INTERNAL_ERROR', message } },
       { status: 500 }
     );
   }
