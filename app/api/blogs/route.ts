@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
       .range(offset, offset + limit - 1);
 
     if (tag) {
-      query = query.eq('blog_tags.name', tag);  // Potential issue: tag join
+      query = query.eq('blog_tags.name', tag); 
     }
 
     const { data: blogs, error, count } = await query;
