@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Clock, User } from "lucide-react";
@@ -98,6 +99,7 @@ export default async function BlogListingPage({
           </div>
         )}
       </main>
+      <Footer />
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Building2, ArrowLeft, CheckCircle2, Quote } from "lucide-react";
@@ -154,6 +155,7 @@ export default async function CaseStudyDetailPage({
           )}
         </article>
       </main>
+      <Footer />
     </div>
   );
 }

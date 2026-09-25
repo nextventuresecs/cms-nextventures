@@ -31,19 +31,20 @@ const Header = () => {
   }, []);
 
   const navLinks = [
-    { href: "/", label: "Home" },
-    { href: "#about", label: "About" },
-    { href: "#services", label: "Services" },
-    { href: "#industries", label: "Industries" },
-    { href: "#why-us", label: "Why Us" },
+    { href: "https://nextventures.in", label: "Home" },
+    { href: "https://nextventures.in/#about", label: "About" },
+    { href: "https://nextventures.in/#services", label: "Services" },
+    { href: "https://nextventures.in/#industries", label: "Industries" },
+    { href: "https://nextventures.in/#why-us", label: "Why Us" },
     { 
       label: "Resources", 
       dropdown: [
-        { href: "#case-studies", label: "Case Studies" },
-        { href: "#blog", label: "Blog" }
+        { href: "/case-studies", label: "Case Studies" },
+        { href: "/blog", label: "Blog" },
+        { href: "https://nextventures.in/#faq", label: "FAQ & Insights" }
       ]
     },
-    { href: "#contact", label: "Contact" },
+    { href: "https://nextventures.in/#contact", label: "Contact" },
   ];
 
   return (
@@ -60,15 +61,22 @@ const Header = () => {
         <div className={`flex items-center justify-between ${isScrolled ? "h-full" : "h-20"}`}>
           {/* Logo */}
           <a 
-            href="#" 
-            className="relative z-10 transition-transform duration-300 hover:scale-105"
+            href="https://nextventures.in" 
+            className="relative z-10 flex items-center gap-3 transition-transform duration-300 hover:scale-105"
             aria-label="Next Ventures Home"
           >
             <img 
-              src="/logo.png" 
+              src="/nvces-logo.svg" 
               alt="Next Ventures" 
-              className={`${isScrolled ? "h-16" : "h-20"} w-auto object-contain`}
+              className={`${isScrolled ? "h-12" : "h-14"} w-auto object-contain`}
+              onError={(e) => {
+                e.currentTarget.onerror = null;
+                (e.target as HTMLImageElement).src = "/logo.png";
+              }}
             />
+            <span className="font-heading font-bold text-xl md:text-2xl text-[hsl(var(--primary))] tracking-tight">
+              Next Ventures
+            </span>
           </a>
 
           {/* Desktop Navigation - Centered */}
@@ -148,7 +156,7 @@ const Header = () => {
               `}
               asChild
             >
-              <a href="#contact">Get Consultancy</a>
+              <a href="https://nextventures.in/#contact">Get Consultancy</a>
             </Button>
           </div>
 
@@ -235,7 +243,7 @@ const Header = () => {
               "
               asChild
             >
-              <a href="#contact">Get Consultancy</a>
+              <a href="https://nextventures.in/#contact">Get Consultancy</a>
             </Button>
           </nav>
         </div>

@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import { Badge } from "@/components/ui/badge";
 import { Clock, Calendar, User, ArrowLeft } from "lucide-react";
 import Link from "next/link";
@@ -144,6 +145,7 @@ export default async function BlogDetailPage({
           )}
         </article>
       </main>
+      <Footer />
     </div>
   );
 }

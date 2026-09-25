@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Building2, ArrowRight } from "lucide-react";
@@ -100,6 +101,7 @@ export default async function CaseStudiesListingPage() {
           </div>
         )}
       </main>
+      <Footer />
     </div>
   );
 }
