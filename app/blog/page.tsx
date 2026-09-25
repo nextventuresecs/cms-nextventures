@@ -3,8 +3,9 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { Clock, User } from "lucide-react";
+import { Clock, User, ArrowRight } from "lucide-react";
 import { Metadata } from "next";
+import { FLAGSHIP_BLOGS } from "@/lib/flagship-data";
 
 export const metadata: Metadata = {
   title: "Blog & Insights | NextVentures",
@@ -12,19 +13,28 @@ export const metadata: Metadata = {
 };
 
 async function getBlogs(tag?: string) {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || '';
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY || '';
+  try {
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || '';
+    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY || '';
 
-  const res = await fetch(`${supabaseUrl}/rest/v1/blog_posts?select=id,title,slug,excerpt,cover_image,published_at,reading_time,staff_users(name)&type=eq.blog&status=eq.published&deleted_at=is.null&order=published_at.desc`, {
-    headers: {
-      apikey: supabaseAnonKey,
-      Authorization: `Bearer ${supabaseAnonKey}`,
-    },
-    next: { revalidate: 60 },
-  });
+    if (!supabaseUrl || !supabaseAnonKey) {
+      return FLAGSHIP_BLOGS;
+    }
 
-  if (!res.ok) return [];
-  return res.json();
+    const res = await fetch(`${supabaseUrl}/rest/v1/blog_posts?select=id,title,slug,excerpt,cover_image,published_at,reading_time,staff_users(name)&type=eq.blog&status=eq.published&deleted_at=is.null&order=published_at.desc`, {
+      headers: {
+        apikey: supabaseAnonKey,
+        Authorization: `Bearer ${supabaseAnonKey}`,
+      },
+      next: { revalidate: 60 },
+    });
+
+    if (!res.ok) return FLAGSHIP_BLOGS;
+    const data = await res.json();
+    return data && data.length > 0 ? data : FLAGSHIP_BLOGS;
+  } catch (error) {
+    return FLAGSHIP_BLOGS;
+  }
 }
 
 export default async function BlogListingPage({

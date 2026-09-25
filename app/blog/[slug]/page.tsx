@@ -2,28 +2,38 @@ import { notFound } from "next/navigation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Badge } from "@/components/ui/badge";
-import { Clock, Calendar, User, ArrowLeft } from "lucide-react";
+import { Clock, Calendar, User, ArrowLeft, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { Metadata } from "next";
+import { Button } from "@/components/ui/button";
+import { FLAGSHIP_BLOGS } from "@/lib/flagship-data";
 
 async function getBlogPost(slug: string) {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || '';
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY || '';
+  try {
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || '';
+    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY || '';
 
-  const res = await fetch(
-    `${supabaseUrl}/rest/v1/blog_posts?select=*,staff_users(name,avatar_url,bio)&slug=eq.${slug}&type=eq.blog&status=eq.published&deleted_at=is.null`,
-    {
-      headers: {
-        apikey: supabaseAnonKey,
-        Authorization: `Bearer ${supabaseAnonKey}`,
-      },
-      next: { revalidate: 60 },
+    if (!supabaseUrl || !supabaseAnonKey) {
+      return FLAGSHIP_BLOGS.find(b => b.slug === slug) || null;
     }
-  );
 
-  if (!res.ok) return null;
-  const data = await res.json();
-  return data[0] || null;
+    const res = await fetch(
+      `${supabaseUrl}/rest/v1/blog_posts?select=*,staff_users(name,avatar_url,bio)&slug=eq.${slug}&type=eq.blog&status=eq.published&deleted_at=is.null`,
+      {
+        headers: {
+          apikey: supabaseAnonKey,
+          Authorization: `Bearer ${supabaseAnonKey}`,
+        },
+        next: { revalidate: 60 },
+      }
+    );
+
+    if (!res.ok) return FLAGSHIP_BLOGS.find(b => b.slug === slug) || null;
+    const data = await res.json();
+    return data[0] || FLAGSHIP_BLOGS.find(b => b.slug === slug) || null;
+  } catch (error) {
+    return FLAGSHIP_BLOGS.find(b => b.slug === slug) || null;
+  }
 }
 
 export async function generateMetadata({
@@ -143,6 +153,19 @@ export default async function BlogDetailPage({
               </div>
             </div>
           )}
+
+          {/* Lead Capture CTA */}
+          <div className="mt-12 p-8 rounded-2xl bg-gradient-to-r from-ocean-dark via-primary to-ocean-medium text-white space-y-4 text-center">
+            <h3 className="text-2xl font-bold">Accelerate Your Venture Growth</h3>
+            <p className="text-primary-foreground/80 max-w-xl mx-auto text-sm">
+              Schedule a 1-on-1 strategy consultancy session with NextVentures advisors.
+            </p>
+            <div className="pt-2">
+              <Button size="lg" className="bg-accent hover:bg-accent-hover text-accent-foreground font-bold rounded-full px-8 shadow-gold" asChild>
+                <a href="https://nextventures.in/#contact">Schedule Strategy Call <ArrowRight className="w-4 h-4 ml-2" /></a>
+              </Button>
+            </div>
+          </div>
         </article>
       </main>
       <Footer />
