@@ -86,7 +86,7 @@ UPSTASH_REDIS_REST_URL="https://..."
 UPSTASH_REDIS_REST_TOKEN="..."
 
 # Application URL
-APP_URL="https://cms.nextventures.in"
+APP_URL="https://blog.nextventures.in"
 ```
 
 ### Supabase Storage Buckets
@@ -147,7 +147,7 @@ ON CONFLICT (id) DO UPDATE SET role = 'admin';
 1. Sign in to your [Resend Dashboard](https://resend.com).
 2. Generate an API Key and add it to `.env.local` as `RESEND_API_KEY="re_..."`.
 3. Verify your sending domain (`nextventures.in`) in Resend DNS settings.
-4. Set Webhook destination URL in Resend settings to `https://cms.nextventures.in/api/webhook/resend`.
+4. Set Webhook destination URL in Resend settings to `https://blog.nextventures.in/api/webhook/resend`.
 
 ### Task 5: Setup Production Environment Variables on Vercel
 1. Go to your **Vercel Project Settings → Environment Variables**.

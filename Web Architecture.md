@@ -13,7 +13,7 @@
                      │
                      ▼
 ┌─────────────────────────────────────────────────────────────┐
-│  CMS API LAYER (cms.nextventures.in/api - Vercel)           │
+│  CMS API LAYER (blog.nextventures.in/api - Vercel)          │
 │                                                             │
 │  ┌──────────────────────────────────────────────────────┐   │
 │  │  PUBLIC ENDPOINTS (No auth required)                 │   │

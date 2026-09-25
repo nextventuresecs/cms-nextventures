@@ -88,7 +88,7 @@ export async function POST(request: NextRequest) {
               <p><strong>Service Interest:</strong> ${validatedData.service}</p>
               ${validatedData.message ? `<p><strong>Message:</strong><br>${validatedData.message}</p>` : ''}
             </div>
-            <p><a href="https://cms.nextventures.in/admin/contacts/${contact.id}" style="background-color: #2563eb; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; display: inline-block;">View in CMS</a></p>
+            <p><a href="${process.env.APP_URL || 'https://blog.nextventures.in'}/admin/contacts/${contact.id}" style="background-color: #2563eb; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; display: inline-block;">View in CMS</a></p>
           </div>
         `,
       });
