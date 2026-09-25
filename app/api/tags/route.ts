@@ -1,25 +1,21 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { supabaseAdmin } from '@/app/lib/supabase';
 
-import { supabase } from '@/app/lib/supabase';
-import { NextResponse } from 'next/server';
-
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
-    const { data: tags, error } = await supabase
+    const { data: tags, error } = await supabaseAdmin
       .from('blog_tags')
       .select('id, name, slug, count')
-      .order('count', { ascending: false });
+      .order('name', { ascending: true });
 
-    if (error) {
-      throw error;
-    }
+    if (error) throw error;
 
     return NextResponse.json({
       success: true,
-      data: tags,
+      data: tags || [],
     });
   } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : 'Unknown error occurred';
-    console.error('Tags API error:', message);
+    const message = error instanceof Error ? error.message : 'Error fetching tags';
     return NextResponse.json(
       { success: false, error: { code: 'INTERNAL_ERROR', message } },
       { status: 500 }

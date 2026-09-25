@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend(process.env.RESEND_API_KEY || 're_12345678901234567890123456789012');
 
 const contactSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
